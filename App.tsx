@@ -12,6 +12,8 @@ import { ProcessMode } from './types';
 type Theme = 'light' | 'dark' | 'system';
 type ImageObject = { url: string; file: File };
 
+const API_KEY_SET = !!process.env.API_KEY;
+
 export default function App() {
   const [theme, setTheme] = useState<Theme>(() => {
     // Get theme from local storage or default to system
@@ -115,6 +117,14 @@ export default function App() {
         
         <main className="w-full max-w-6xl mx-auto flex-grow flex flex-col items-center justify-center">
           {isLoading && <Loader mode={activeMode} />}
+          
+          {!API_KEY_SET && (
+             <div className="bg-red-100 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg relative my-4 max-w-2xl text-center" role="alert">
+              <strong className="font-bold">Configuration Error: </strong>
+              <span className="block sm:inline">The <code>API_KEY</code> environment variable is not set. Please configure this variable in your deployment environment (e.g., Vercel project settings) to enable AI features.</span>
+            </div>
+          )}
+
           {error && (
             <div className="bg-red-100 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg relative my-4 max-w-md text-center" role="alert">
               <strong className="font-bold">Error: </strong>
@@ -141,7 +151,7 @@ export default function App() {
                     setActiveMode={setActiveMode}
                     onProcess={handleProcessImage}
                     onReset={handleReset}
-                    isProcessingDisabled={!selectedImage}
+                    isProcessingDisabled={!selectedImage || !API_KEY_SET}
                  />
               </div>
               <div className="w-full lg:w-2/3">
