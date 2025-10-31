@@ -1,0 +1,5 @@
+{
+  "name": "Copy of AI Watermark Remover & Image Enhancer",
+  "description": "An AI-powered tool to automatically remove watermarks from images and enhance their quality. This application allows users to upload images, apply various AI transformations like watermark removal, quality enhancement, and 4K upscaling, and then preview the results with a before-and-after slider before downloading.",
+  "requestFramePermissions": []
+}
