@@ -6,13 +6,13 @@ import { ControlPanel } from './components/ControlPanel';
 import { ResultViewer } from './components/ResultViewer';
 import { Loader } from './components/Loader';
 import { ImageGallery } from './components/ImageGallery';
-import { processImageWithGemini } from './services/geminiService';
+import { processImageWithGemini, API_KEY } from './services/geminiService';
 import { ProcessMode } from './types';
 
 type Theme = 'light' | 'dark' | 'system';
 type ImageObject = { url: string; file: File };
 
-const API_KEY_SET = !!process.env.API_KEY;
+const API_KEY_SET = API_KEY && API_KEY !== "YOUR_API_KEY_HERE";
 
 export default function App() {
   const [theme, setTheme] = useState<Theme>(() => {
@@ -121,7 +121,7 @@ export default function App() {
           {!API_KEY_SET && (
              <div className="bg-red-100 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg relative my-4 max-w-2xl text-center" role="alert">
               <strong className="font-bold">Configuration Error: </strong>
-              <span className="block sm:inline">The <code>API_KEY</code> environment variable is not set. Please configure this variable in your deployment environment (e.g., Vercel project settings) to enable AI features.</span>
+              <span className="block sm:inline">Please add your Gemini API Key in the <code>services/geminiService.ts</code> file to enable AI features.</span>
             </div>
           )}
 

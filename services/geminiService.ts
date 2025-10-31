@@ -1,6 +1,11 @@
 import { GoogleGenAI, Modality } from "@google/genai";
 import { ProcessMode } from '../types';
 
+// অনুগ্রহ করে এখানে আপনার জেমিনি এপিআই কী (Gemini API Key) যোগ করুন।
+// Please paste your Gemini API key here.
+export const API_KEY = "AIzaSyCr3kPAesgcw9YfsDSs1dWC7ol7xaLXf_A";
+
+
 const fileToGenerativePart = async (file: File) => {
   const base64EncodedDataPromise = new Promise<string>((resolve) => {
     const reader = new FileReader();
@@ -31,11 +36,11 @@ const getPromptForMode = (mode: ProcessMode): string => {
 
 
 export const processImageWithGemini = async (file: File, mode: ProcessMode): Promise<string> => {
-  if (!process.env.API_KEY) {
-    throw new Error("API_KEY environment variable is not set. Please configure it to use the AI features.");
+  if (!API_KEY || API_KEY === "YOUR_API_KEY_HERE") {
+    throw new Error("API Key not found. Please add your Gemini API Key in 'services/geminiService.ts'.");
   }
 
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  const ai = new GoogleGenAI({ apiKey: API_KEY });
 
   const imagePart = await fileToGenerativePart(file);
   const textPart = { text: getPromptForMode(mode) };
